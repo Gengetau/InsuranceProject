@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- Mapper代理开发 -->
+<!-- Mapper接口和sql映射文件编译后在同一目录下 -->
+<!-- namespace名称空间: 为mapper接口全限定名-->
+    <mapper namespace = "com.seiryo.dao.OrderInfoMapper">
+	<insert id = "addNewOrderInfo" parameterType = "com.seiryo.pojo.MyOrderInfo">
+		INSERT INTO My_Order_Info(Order_Id, Order_Commodity_Liability1, Order_Commodity_Liability2,
+								  Order_Commodity_Liability3, Order_Commodity_Liability4, Order_Commodity_Liability5,
+								  Order_Commodity_Liability6, Order_Commodity_Liability7, Order_Beneficiary_Name,
+								  Order_Beneficiary_City, Order_Beneficiary_Phone, Order_Commodity_Time_Start,
+								  Order_Commodity_Time_End, Order_Commodity_Time_Length, Order_Sum_Price, O1, O2, O3)
+			VALUE (#{orderId}, #{orderCommodityLiability1}, #{orderCommodityLiability2},
+				   #{orderCommodityLiability3}, #{orderCommodityLiability4}, #{orderCommodityLiability5},
+				   #{orderCommodityLiability6}, #{orderCommodityLiability7}, #{orderBeneficiaryName},
+				   #{orderBeneficiaryCity}, #{orderBeneficiaryPhone}, #{orderCommodityTimeStart},
+				   #{orderCommodityTimeEnd}, #{orderCommodityTimeLength}, #{orderSumPrice}, NULL, NULL,
+				   NULL);
+	</insert>
+    </mapper>

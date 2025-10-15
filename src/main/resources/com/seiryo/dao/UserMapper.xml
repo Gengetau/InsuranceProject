@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- Mapper代理开发 -->
+<!-- Mapper接口和sql映射文件编译后在同一目录下 -->
+<!-- namespace名称空间: 为mapper接口全限定名-->
+    <mapper namespace = "com.seiryo.dao.UserMapper">
+	<insert id = "addNewUser" parameterType = "com.seiryo.pojo.MyUser" useGeneratedKeys = "true" keyProperty = "userid">
+		INSERT INTO My_User(User_Email, User_Password, User_Status, U1, U2, U3)
+			VALUE (#{userEmail}, #{userPassword}, 1, NULL, NULL, NULL);
+	</insert>
+    </mapper>

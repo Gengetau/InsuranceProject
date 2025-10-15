@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 定义日志文件存放路径的变量喵 -->
+	<property name = "LOG_HOME" value = "./logs"/>
+
+	<!-- 1. 控制台输出器 (ConsoleAppender) 喵 (保留) -->
+	<appender name = "CONSOLE" class = "ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- 这是带有颜色魔法的 pattern 喵！在控制台看日志会很漂亮喵~ -->
+			<pattern>%cyan(%d{HH:mm:ss.SSS}) %red([%thread]) %highlight(%-5level) %magenta(%logger{36}) - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+	<!-- 2. 文件输出器 (RollingFileAppender) 喵 (新增加的！) -->
+	<appender name = "FILE" class = "ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 指定当前日志文件的路径和名称喵 -->
+		<file>${LOG_HOME}/insurance-project.log</file>
+
+		<!-- 这是日志滚动的策略喵，妮娅设置的是按天滚动 -->
+		<rollingPolicy class = "ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 归档日志的命名格式喵，%d{yyyy-MM-dd} 会让它每天生成一个新文件 -->
+			<fileNamePattern>${LOG_HOME}/insurance-project.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<!-- 我们最多保留30天的小鱼干...啊不，是日志文件喵 -->
+			<maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <!-- 文件里的日志格式就不需要颜色啦喵 -->
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+	<!--
+	   3. 为我们自己的项目代码设置日志级别喵
+	   name="com.seiryo" 表示 com.seiryo 包下的所有类的日志都会被处理
+	   level="DEBUG" 表示 DEBUG, INFO, WARN, ERROR 级别的日志都会被打印出来
+	-->
+	<logger name = "com.seiryo" level = "DEBUG"/>
+
+	<!--
+	   4. 为 MyBatis 显示 SQL 日志喵
+	   把 com.seiryo.dao 包的级别设为 DEBUG，就能看到执行的 SQL 语句了，非常方便调试喵！
+	   妮娅在这里把 com.seiryo.mapper 改成了 com.seiryo.dao，和主人的项目结构保持一致喵~
+	-->
+	<logger name = "com.seiryo.dao" level = "DEBUG"/>
+
+
+	<!-- 5. 根 Logger 配置，所有日志最终都由它处理喵 -->
+	<root level = "INFO">
+        <!-- 指定日志要输出到哪个 appender，我们让它同时输出到控制台和文件喵 -->
+		<appender-ref ref = "CONSOLE"/>
+        <appender-ref ref = "FILE"/>
+    </root>
+
+</configuration>

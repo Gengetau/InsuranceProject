@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourcePerFileMappings">
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/440ccfae-da41-4a33-b1ea-07e3fd61cc49/console.sql" value="440ccfae-da41-4a33-b1ea-07e3fd61cc49" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/seiryo/dao/CommodityLiabilityInfoMapper.java" value="440ccfae-da41-4a33-b1ea-07e3fd61cc49" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/seiryo/dao/CommodityMapper.java" value="440ccfae-da41-4a33-b1ea-07e3fd61cc49" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/seiryo/dao/UserInfoMapper.java" value="440ccfae-da41-4a33-b1ea-07e3fd61cc49" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/seiryo/dao/UserMapper.java" value="440ccfae-da41-4a33-b1ea-07e3fd61cc49" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/com/seiryo/dao/CommodityMapper.xml" value="440ccfae-da41-4a33-b1ea-07e3fd61cc49" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/com/seiryo/dao/OrderInfoMapper.xml" value="440ccfae-da41-4a33-b1ea-07e3fd61cc49" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/com/seiryo/dao/OrderMapper.xml" value="440ccfae-da41-4a33-b1ea-07e3fd61cc49" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/com/seiryo/dao/UserInfoMapper.xml" value="440ccfae-da41-4a33-b1ea-07e3fd61cc49" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/com/seiryo/dao/UserMapper.xml" value="440ccfae-da41-4a33-b1ea-07e3fd61cc49" />
+  </component>
+</project>

@@ -1,0 +1,126 @@
+# 保险项目后端开发文档
+
+## 一、 项目概述
+
+本项目是一个在线保险销售平台的后端服务，旨在为用户提供保险产品的浏览、查询、购买与管理功能。
+
+**核心技术栈**:
+* Spring 5.2.10.RELEASE
+* Spring MVC 5.2.10.RELEASE
+* MyBatis 3.5.6
+* MySQL 5.5.55
+* Druid 连接池 1.2.22
+* JWT (JSON Web Token) for 认证
+* Lombok 简化javaBean类的书写
+* logback 1.18.12 控制台日志打印
+* jackson 2.19.2 JSON数据转化
+
+---
+
+## 二、 数据库设计
+
+* **数据库名**: `insureDatabase`
+* **数据表**:
+    1. `commodity`: 商品（保险产品）信息表
+    2. `commodity_liability_info`: 商品责任详情表
+    3. `my_order`: 订单主表
+    4. `my_order_info`: 订单详情表
+    5. `my_user`: 用户登录表
+    6. `my_user_info`: 用户信息详情表
+
+---
+
+## 三、 项目结构详解
+
+### 1. `config` 包 (配置类)
+> Spring 项目的配置中心
+
+* [SpringConfig.java](src/main/java/com/seiryo/config/SpringConfig.java): Spring 核心容器配置。
+* [JdbcConfig.java](src/main/java/com/seiryo/config/JdbcConfig.java): 数据库与连接池（Druid）的配置。
+* [MybatisConfig.java](src/main/java/com/seiryo/config/MybatisConfig.java): MyBatis 的核心配置
+* [ServletContainersInitConfig.java](src/main/java/com/seiryo/config/ServletContainersInitConfig.java): Servlet 容器启动配置类。
+* [SpringMvcConfig.java](src/main/java/com/seiryo/config/SpringMvcConfig.java): Spring MVC 的配置。
+
+### 2. `pojo` 包 (实体类)
+> 和数据库表结构一一对应的实体类
+
+* [MyUser.java](src/main/java/com/seiryo/pojo/MyUser.java): 对应 `my_user` 表
+* [MyUserInfo.java](src/main/java/com/seiryo/pojo/MyUserInfo.java): 对应 `my_user_info` 表
+* [Commodity.java](src/main/java/com/seiryo/pojo/Commodity.java): 对应 `commodity` 表
+* [CommodityLiabilityInfo.java](src/main/java/com/seiryo/pojo/CommodityLiabilityInfo.java): 对应 `commodity_liability_info` 表
+* [MyOrder.java](src/main/java/com/seiryo/pojo/MyOrder.java): 对应 `my_order` 表
+* [MyOrderInfo.java](src/main/java/com/seiryo/pojo/MyOrderInfo.java): 对应 `my_order_info` 表
+
+### 3. `dto` & `vo` 包 (数据传输对象)
+> DTO 负责接收前端传来的数据，VO 负责把数据返回给前端！
+
+* **DTOs**:
+* [LoginDTO.java](src/main/java/com/seiryo/dto/LoginDTO.java):登录表单
+* [RegisterDTO.java](src/main/java/com/seiryo/dto/RegisterDTO.java) 注册表单
+* [UserInfoDTO.java](src/main/java/com/seiryo/dto/UserInfoDTO.java) 个人信息表单
+* [OrderDTO.java](src/main/java/com/seiryo/dto/OrderDTO.java) 保险购入表单
+* [ChargeMoneyDTO.java](src/main/java/com/seiryo/dto/ChargeMoneyDTO.java) 充值表单
+* [ChangeInfoDTO.java](src/main/java/com/seiryo/dto/ChangeInfoDTO.java) 个人信息修改表单 
+* [PasswordDTO.java](src/main/java/com/seiryo/dto/PasswordDTO.java) 密码验证修改表单
+* [PageDTO.java](src/main/java/com/seiryo/dto/PageDTO.java) 分页查询表单
+
+* **VOs**: 
+* [CommodityIndexVO.java](src/main/java/com/seiryo/vo/CommodityIndexVO.java) 首页商品展示对象
+* [CommodityDetailVO.java](src/main/java/com/seiryo/vo/CommodityDetailVO.java) 商品详情展示对象
+* [UserVO.java](src/main/java/com/seiryo/vo/UserVO.java) 用户信息展示对象
+* [OrderVO.java](src/main/java/com/seiryo/vo/OrderVO.java) 订单信息展示对象
+* [CommodityLiabilityInfoVO.java](src/main/java/com/seiryo/vo/CommodityLiabilityInfoVO.java) 保险责任展示对象
+
+### 4. `enums` 包 (枚举类)
+* [ResponseCode.java](src/main/java/com/seiryo/enums/ResponseCode.java): 定义了所有业务操作的响应状态码和信息，让返回结果更规范！
+
+### 5. `util` 包 (工具类)
+* [Result.java](src/main/java/com/seiryo/util/Result.java): 后端统一返回给前端的 JSON 格式封装。
+* [JwtUtil.java](src/main/java/com/seiryo/util/JwtUtil.java): 生成和校验 JWT 令牌的工具。
+* [CommodityUtil.java](src/main/java/com/seiryo/util/CommodityUtil.java) 商品业务层工具方法 
+* [OrderUtil.java](src/main/java/com/seiryo/util/OrderUtil.java) 订单业务层工具方法
+
+---
+
+## 四、 核心业务接口 (Service & Mapper)
+
+### 1. 用户模块
+* **Service**: [UserService.java](src/main/java/com/seiryo/service/UserService.java)
+    * `login(LoginDTO)`: 处理用户登录业务。
+    * `register(RegisterDTO)`: 处理用户注册业务。
+    * `chargeMoney(ChargeMoneyDTO)`:处理用户充值业务
+    * `passwordCheck(PasswordDTO)，changePassword(PasswordDTO)`:处理用户密码修改业务
+    * `updateUserPhone(ChangeInfoDTO)`:处理用户手机号变更业务
+    * `findMyOrders(PageDTO)`:处理查询用户订单业务
+* **Mapper**: [UserMapper.java](src/main/java/com/seiryo/dao/UserMapper.java) & [UserInfoMapper.java](src/main/java/com/seiryo/dao/UserInfoMapper.java)
+    * `getUserByEmail(...)`: 根据邮箱查询用户。
+    * `addNewUser(...)`: 插入新用户。
+    * `getPasswordByUserId(...)`: 获取密码。
+    * `updatePassword(...)`: 修改密码。
+
+### 2. 商品模块
+* **Service**: [CommodityService.java](src/main/java/com/seiryo/service/CommodityService.java)
+    * `findCommodityIndex(UserInfoDTO)`: 获取首页推荐保险列表。
+    * `findCommodityDetailById(Integer commodityId)`: 根据ID查询商品详情。
+    * `findCommodityLiabilityById(Integer commodityId)`: 根据ID查询商品详情。
+* **Mapper**: [CommodityMapper.java](src/main/java/com/seiryo/dao/CommodityMapper.java) & [CommodityLiabilityInfoMapper.java](src/main/java/com/seiryo/dao/CommodityLiabilityInfoMapper.java)
+    * `findRecommendedCommodities(...)`: 根据年龄和性别动态筛选商品。
+    * `findCommodityById(...)`: 根据ID查询商品。
+    * `getCommodityLiabilityInfo(...)`: 根据ID查询商品详情。
+
+### 3. 订单模块
+* **Service**: [OrderService.java](src/main/java/com/seiryo/service/OrderService.java)
+    * `addNewOrder(OrderDTO)`: 根据年龄和性别动态筛选商品。
+* **Mapper**: [OrderMapper.java](src/main/java/com/seiryo/dao/OrderMapper.java) & [OrderInfoMapper.java](src/main/java/com/seiryo/dao/OrderInfoMapper.java)
+    * `addNewOrder(...)`: 插入订单主表。
+    * `findMyOrder(...)`: 分页查询我的投保记录。
+    * `countMyOrder(...)`: 计算投保记录数量。
+    * `addNewOrderInfo(...)`: 插入新的订单详情表数据。
+
+---
+
+## 五、 API文档
+
+### api-fox仓库地址：https://app.apifox.com/project/7236393
+
+### api-fox邀请链接 https://app.apifox.com/invite/project?token=smCDRTctkbOi6LV5Synit

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- Mapper代理开发 -->
+<!-- Mapper接口和sql映射文件编译后在同一目录下 -->
+<!-- namespace名称空间: 为mapper接口全限定名-->
+    <mapper namespace = "com.seiryo.dao.OrderMapper">
+		<insert id = "addNewOrder" parameterType = "com.seiryo.pojo.MyOrder">
+			INSERT INTO My_Order(Order_Id, User_Id, Commodity_Id, O1, O2, O3)
+				VALUE (#{orderId}, #{userid}, #{commodityId}, NULL, NULL, NULL)
+		</insert>
+	
+		<select id = "findMyOrder" parameterType = "map" resultType = "com.seiryo.vo.OrderVO">
+			SELECT Mo.Order_Id,
+				   Co.Commodity_Name,
+				   Moi.Order_Sum_Price,
+				   Mui.User_Name,
+				   Moi.Order_Beneficiary_Name,
+				   Moi.Order_Commodity_Time_Start,
+				   Moi.Order_Commodity_Time_End,
+				   Moi.Order_Commodity_Time_Length
+			FROM My_Order AS Mo
+					 LEFT JOIN Commodity AS Co
+							   ON Mo.Commodity_Id = Co.Commodity_Id
+					 LEFT JOIN My_Order_Info AS Moi
+							   ON Mo.Order_Id = Moi.Order_Id
+					 LEFT JOIN My_User_Info AS Mui
+							   ON Mo.User_Id = Mui.User_Id
+			WHERE Mo.User_Id = #{userid}
+			LIMIT #{begin},#{pageSize}
+		</select>
+	
+		<select id = "countMyOrder" parameterType = "map" resultType = "int">
+			SELECT COUNT(*)
+			FROM My_Order AS Mo
+					 LEFT JOIN Commodity AS Co
+							   ON Mo.Commodity_Id = Co.Commodity_Id
+					 LEFT JOIN My_Order_Info AS Moi
+							   ON Mo.Order_Id = Moi.Order_Id
+					 LEFT JOIN My_User_Info AS Mui
+							   ON Mo.User_Id = Mui.User_Id
+			WHERE Mo.User_Id = #{userid}
+		</select>
+    </mapper>
